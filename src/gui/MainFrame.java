@@ -20,23 +20,25 @@ public class MainFrame extends JFrame{
 	public static final int STATUS_CHAT = 2;
 
 	private int status = STATUS_LOGIN;
-	
+
 	private XmppManager xmppManager;
+
+	private String openChat = null;
 
 	private ArrayList<ChatAppPanel> gui;
 	private SpringLayout l;
 	private Container p;
 	private int height, width;
-	
+
 	public MainFrame(int width, int height){
 		super("");
 		this.width = width;
 		this.height = height;
 		setBounds(0, 0, width, height);
-		
+
 		xmppManager = new XmppManager("raspi-server.mooo.com", "raspi-server.mooo.com", 5222);
 		xmppManager.init();
-		
+
 		l = new SpringLayout();
 		p = this.getContentPane();
 		p.setLayout(l);
@@ -67,16 +69,23 @@ public class MainFrame extends JFrame{
 			for (int i = 0; i < gui.size(); i++)
 				if (i == status)
 					gui.get(i).activate();
-				else if(gui.get(i).isActive())
-					gui.get(i).deactivate();
+				else if (gui.get(i).isActive()) gui.get(i).deactivate();
 			setTitle(gui.get(status).getClass().toString());
 			revalidate();
 			return true;
 		}
 		return false;
 	}
-	
+
 	public XmppManager getXmppManager(){
 		return xmppManager;
+	}
+
+	public void setOpenChat(String JID){
+		openChat = JID;
+	}
+
+	public String getOpenChat(){
+		return openChat;
 	}
 }

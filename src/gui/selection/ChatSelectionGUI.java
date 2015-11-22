@@ -44,7 +44,9 @@ public class ChatSelectionGUI extends ChatAppPanel{
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e){
-				
+				RosterEntry entry = ChatList.getSelectedValue();
+				context.setOpenChat(entry.getUser());
+				context.setStatus(MainFrame.STATUS_CHAT);
 			}
 		});
 		sp = new JScrollPane(ChatList);
