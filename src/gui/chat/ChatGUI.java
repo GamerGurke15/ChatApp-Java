@@ -2,20 +2,20 @@ package gui.chat;
 
 import java.awt.Dimension;
 
-import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import gui.ChatAppPanel;
 import gui.MainFrame;
 
-public class ChatGUI extends JPanel{
+public class ChatGUI extends ChatAppPanel{
 	
 	private MainFrame context;
+	private SpringLayout l;
 	
 	public ChatGUI(Dimension size, MainFrame context){
 		super();
 		this.context = context;
 		
-		SpringLayout l;
 		setLayout(l = new SpringLayout());
 	}
 

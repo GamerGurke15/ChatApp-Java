@@ -6,15 +6,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import org.jivesoftware.smack.roster.Roster;
+
+import gui.ChatAppPanel;
 import gui.MainFrame;
 import xmpp.XmppManager;
 
-public class LoginGUI extends JPanel{
+public class LoginGUI extends ChatAppPanel{
 
 	private MainFrame context;
 	private XmppManager xmppManager;
@@ -29,7 +31,10 @@ public class LoginGUI extends JPanel{
 		super();
 		this.context = context;
 		this.xmppManager = context.getXmppManager();
-		
+	}
+	
+	public void activate(){
+		super.activate();
 		SpringLayout l;
 		setLayout(l = new SpringLayout());
 
@@ -63,8 +68,17 @@ public class LoginGUI extends JPanel{
 				if (!username.getText().isEmpty() && !password.getPassword().equals("")){
 					System.out.println("Performing log in as user: " + username.getText());
 					if (LoginGUI.this.xmppManager.performLogin(username.getText(),
-							new String(password.getPassword())))
+							new String(password.getPassword()))){
+						//loading the roster
+						Roster roster = xmppManager.getRoster();
+						if (!roster.isLoaded())
+							try{
+							roster.reloadAndWait();
+							} catch (Exception ex){
+								ex.printStackTrace();
+							}
 						LoginGUI.this.context.setStatus(MainFrame.STATUS_SELECT);
+					}
 				}
 			}
 		});

@@ -23,7 +23,7 @@ public class MainFrame extends JFrame{
 	
 	private XmppManager xmppManager;
 
-	private ArrayList<JComponent> gui;
+	private ArrayList<ChatAppPanel> gui;
 	private SpringLayout l;
 	private Container p;
 	private int height, width;
@@ -47,16 +47,16 @@ public class MainFrame extends JFrame{
 
 	private void initGUI(){
 		gui = new ArrayList<>();
-		gui.add((JComponent) new LoginGUI(this.getSize(), this));
-		gui.add((JComponent) new ChatSelectionGUI(this.getSize(), this));
-		gui.add((JComponent) new ChatGUI(this.getSize(), this));
+		gui.add(new LoginGUI(this.getSize(), this));
+		gui.add(new ChatSelectionGUI(this.getSize(), this));
+		gui.add(new ChatGUI(this.getSize(), this));
 		for (JComponent comp : gui){
 			comp.setBounds(0, 0, width, height);
 			l.putConstraint(SpringLayout.NORTH, comp, 0, SpringLayout.NORTH, p);
 			l.putConstraint(SpringLayout.EAST, comp, 0, SpringLayout.EAST, p);
 			l.putConstraint(SpringLayout.SOUTH, comp, 0, SpringLayout.SOUTH, p);
 			l.putConstraint(SpringLayout.WEST, comp, 0, SpringLayout.WEST, p);
-			comp.setVisible(true);
+			comp.setVisible(false);
 			add(comp);
 		}
 	}
@@ -65,7 +65,10 @@ public class MainFrame extends JFrame{
 		if (status < gui.size()){
 			this.status = status;
 			for (int i = 0; i < gui.size(); i++)
-				gui.get(i).setVisible((i == status));
+				if (i == status)
+					gui.get(i).activate();
+				else if(gui.get(i).isActive())
+					gui.get(i).deactivate();
 			setTitle(gui.get(status).getClass().toString());
 			revalidate();
 			return true;
