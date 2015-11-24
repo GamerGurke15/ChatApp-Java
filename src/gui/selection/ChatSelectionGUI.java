@@ -34,24 +34,25 @@ public class ChatSelectionGUI extends ChatAppPanel{
 	public void activate(){
 		super.activate();
 		RosterEntry[] chats = new RosterEntry[0];
-		for (RosterEntry e : xmppManager.getRoster().getEntries())
-			System.out.println(e.toString());
 		ChatList = new JList<>(xmppManager.getRoster().getEntries().toArray(chats));
 		ChatList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		ChatList.setLayoutOrientation(JList.VERTICAL);
 		ChatList.setVisibleRowCount(-1);
 		ChatList.addListSelectionListener(new ListSelectionListener(){
-			
+
 			@Override
 			public void valueChanged(ListSelectionEvent e){
-				RosterEntry entry = ChatList.getSelectedValue();
-				context.setOpenChat(entry.getUser());
-				context.setStatus(MainFrame.STATUS_CHAT);
+				if (e.getValueIsAdjusting()){
+					RosterEntry entry = ChatList.getSelectedValue();
+					context.setOpenChat(entry.getUser());
+					System.out.println("opening chat: " + context.getOpenChat());
+					context.setStatus(MainFrame.STATUS_CHAT);
+				}
 			}
 		});
 		sp = new JScrollPane(ChatList);
 		sp.setPreferredSize(getSize());
-		
+
 		l.putConstraint(SpringLayout.NORTH, sp, 0, SpringLayout.NORTH, this);
 		l.putConstraint(SpringLayout.WEST, sp, 0, SpringLayout.WEST, this);
 		add(sp);

@@ -18,5 +18,17 @@ public class ChatGUI extends ChatAppPanel{
 		
 		setLayout(l = new SpringLayout());
 	}
+	
+	public void activate(){
+		super.activate();
+	}
+	
+	private void loadChatFromFile(){
+		
+	}
+	
+	private void saveChatToFile(){
+		
+	}
 
 }
