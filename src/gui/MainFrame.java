@@ -36,7 +36,7 @@ public class MainFrame extends JFrame{
 		this.height = height;
 		setBounds(0, 0, width, height);
 
-		xmppManager = new XmppManager("raspi-server.mooo.com", "raspi-server.mooo.com", 5222);
+		xmppManager = new XmppManager("raspi-server.ddns.net", "raspi-server.mooo.com", 5222);
 		xmppManager.init();
 
 		l = new SpringLayout();
